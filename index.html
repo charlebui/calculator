@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<header>
+    <style>
+    body {
+        background: slategray;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: auto auto auto auto;
+        padding: 80px;
+        align-items: center;
+        justify-content: center;
+        }
+
+        .answer-box {
+        background-color: whitesmoke;
+        border: 2px solid darkgray;
+        padding: 20px;
+        font-size: 30px;
+        text-align: right;
+        grid-column-start: 1;
+        grid-column-end: 5;
+        }
+
+        .button {
+        background-color:whitesmoke;
+        border: 2px solid darkgray;
+        padding: 30px;
+        font-size: 30px;
+        text-align: center;
+        }
+
+        .button:hover {background-color: darkgray}
+
+        .button:active {
+        background-color: darkgray;
+        transform: translateY(4px);
+        }
+    </style>
+</header>
+
+<body>
+
+    <div class="grid-container" id = "calculator">
+        <div class="answer-box" id="answer-box">0.0</div>
+        <button class="button" id="1">1</button>
+        <button class="button" id="2">2</button>
+        <button class="button" id="3">3</button>
+        <button class="button" id="/">/</button>
+        <button class="button" id="4">4</button>
+        <button class="button" id="5">5</button>
+        <button class="button" id="6">6</button>
+        <button class="button" id="X">X</button>
+        <button class="button" id="7">7</button>
+        <button class="button" id="8">8</button>
+        <button class="button" id="9">9</button>
+        <button class="button" id="-">-</button>
+        <button class="button" id="0">0</button>
+        <button class="button" id=".">.</button>
+        <button class="button" id="=">=</button>
+        <button class="button" id="+">+</button>
+      </div> 
+</body>
+
+<script>
+    var ans = "0";
+    var currentNum = "";
+    var nextNum = "";
+    var toggle = true;
+    var operation = "";
+
+    document.getElementById("calculator").addEventListener("click", function(e) {        
+        for (var i = 0; i < 10; i++) {
+            if (e.target && e.target.id == i) {
+                if (toggle) {
+                    setCurrentNum(i);
+                } else {
+                    setNextNum(i);
+                }
+            }
+        }
+
+        if (e.target && e.target.id == ".") {
+            addDecimal();
+        }
+
+        if (e.target && e.target.id == "/") {
+            toggle = false;
+            operation = "/";
+        }
+        if (e.target && e.target.id == "X") {
+            toggle = false;
+            operation = "X";
+        }
+        if (e.target && e.target.id == "-") {
+            toggle = false; 
+            operation = "-";
+        }
+        if (e.target && e.target.id == "+") {
+            toggle = false;            
+            operation = "+";
+        }
+
+        if (e.target && e.target.id == "=") {
+            if (operation == "/") {
+                divide();
+                changeNum(ans);
+            } else if (operation == "X") {
+                multiply();
+                changeNum(ans);
+            } else if (operation == "-") {
+                subtract();
+                changeNum(ans);
+            } else if (operation == "+") {
+                add();
+                changeNum(ans);
+            }
+
+            toggle = true;
+            currentNum = ans;
+            nextNum = "";
+        }
+    });
+
+    function setCurrentNum(i) {
+        currentNum += i;
+        changeNum(currentNum);
+    } 
+
+    function setNextNum(i) {
+        nextNum += i;
+        changeNum(nextNum);
+    } 
+
+    function addDecimal() {
+
+    }
+
+    function changeNum(num) {
+        document.getElementById("answer-box").innerHTML = num;
+    }
+
+    function divide() {
+        ans = Number(currentNum) / Number(nextNum);
+    }
+
+    function multiply() {
+        ans = Number(currentNum) * Number(nextNum);
+    }
+
+    function add() {
+        ans = Number(currentNum) + Number(nextNum);
+    }
+
+    function subtract() {
+        ans = Number(currentNum) - Number(nextNum);
+    }    
+</script>   
